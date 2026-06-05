@@ -7,6 +7,12 @@ function resolveDbLobbyUrl(): string | null {
   return url || null;
 }
 
+export async function collectDbDataFromLobbyUrl(
+  lobbyUrl: string,
+): Promise<PublicPlatformData> {
+  return collectDbLiveData(lobbyUrl);
+}
+
 async function collectDbLiveData(lobbyUrl: string): Promise<PublicPlatformData> {
   const result = await fetchDbLobbyTables(lobbyUrl);
   const fetchedAt = new Date();

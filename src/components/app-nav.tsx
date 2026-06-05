@@ -47,6 +47,12 @@ export function AppNav({ user }: { user: SessionUser | null }) {
                 录入
               </Link>
               <Link
+                href="/admin/sync"
+                className="rounded-full px-3 py-2 text-sm font-medium text-orange-200 transition hover:bg-orange-500/15 hover:text-orange-300"
+              >
+                DB同步
+              </Link>
+              <Link
                 href="/admin/history"
                 className="rounded-full px-3 py-2 text-sm font-medium text-orange-200 transition hover:bg-orange-500/15 hover:text-orange-300"
               >
