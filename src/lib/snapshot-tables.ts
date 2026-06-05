@@ -12,6 +12,7 @@ export async function saveSnapshotTables(snapshotId: number, tables: TableEntry[
       snapshotId,
       tableName: table.name,
       gameType: table.gameType,
+      hall: table.hall ?? null,
     })),
   );
 }

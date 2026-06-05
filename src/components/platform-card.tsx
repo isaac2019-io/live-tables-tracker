@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DataSourceBadge } from "@/components/data-source-badge";
 import { GameTypeBreakdown } from "@/components/game-type-breakdown";
 import { Card } from "@/components/ui";
-import { getPlatform, type PlatformSlug } from "@/lib/constants";
+import { DB_HALLS, getPlatform, platformHasHalls, type PlatformSlug } from "@/lib/constants";
 import { countsFromSnapshot } from "@/lib/snapshots";
 import type { snapshots } from "@/lib/db/schema";
 import { formatUtc8 } from "@/lib/timezone";
@@ -20,7 +20,11 @@ export function PlatformCard({
   if (!snapshot) {
     return (
       <Card title={platform?.fullName ?? platformSlug}>
-        <p className="text-sm text-slate-400">暂无录入数据</p>
+        <p className="text-sm text-slate-400">
+          {platformHasHalls(platformSlug)
+            ? `${DB_HALLS.map((h) => h.label).join("、")} — 待录入`
+            : "暂无录入数据"}
+        </p>
         <Link
           href={`/platforms/${platformSlug}`}
           className="mt-4 inline-block text-sm font-bold text-orange-300 hover:text-orange-200"

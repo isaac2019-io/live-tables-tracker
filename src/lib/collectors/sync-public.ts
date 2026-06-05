@@ -31,7 +31,7 @@ function countsToRow(counts: GameTypeCounts, totalTables: number) {
 
 async function upsertPublicSnapshot(data: PublicPlatformData, userId: number) {
   const db = await getDb();
-  const recordedAt = data.fetchedAt;
+  const recordedAt = data.recordedAt;
   const note = formatNote(data);
   const payload = {
     platform: data.platform,

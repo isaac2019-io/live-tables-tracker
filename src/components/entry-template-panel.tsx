@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button, Card } from "@/components/ui";
-import { GAME_TYPES } from "@/lib/constants";
+import { DB_HALLS, GAME_TYPES } from "@/lib/constants";
 
 export function EntryTemplatePanel() {
   const router = useRouter();
@@ -84,7 +84,12 @@ export function EntryTemplatePanel() {
               <tr className="border-t border-white/10">
                 <td className="px-3 py-2 font-mono text-orange-200">platform</td>
                 <td className="px-3 py-2 text-slate-300">平台</td>
-                <td className="px-3 py-2 text-slate-400">evo / pragmatic / choice</td>
+                <td className="px-3 py-2 text-slate-400">evo / pragmatic / choice / db</td>
+              </tr>
+              <tr className="border-t border-white/10">
+                <td className="px-3 py-2 font-mono text-orange-200">hall</td>
+                <td className="px-3 py-2 text-slate-300">厅（仅 DB 必填）</td>
+                <td className="px-3 py-2 text-slate-400">flagship / international …</td>
               </tr>
               <tr className="border-t border-white/10">
                 <td className="px-3 py-2 font-mono text-orange-200">recorded_at_utc8</td>
@@ -108,6 +113,23 @@ export function EntryTemplatePanel() {
               </tr>
             </tbody>
           </table>
+        </div>
+      </Card>
+
+      <Card title="DB 厅别 hall 对照表">
+        <div className="grid gap-2 sm:grid-cols-2">
+          {DB_HALLS.map((hall) => (
+            <div
+              key={hall.slug}
+              className="rounded-2xl border border-white/10 bg-black/35 px-3 py-2 text-sm"
+            >
+              <span className="font-mono text-orange-200">{hall.slug}</span>
+              <span className="text-slate-400">
+                {" "}
+                — {hall.label} ({hall.labelEn})
+              </span>
+            </div>
+          ))}
         </div>
       </Card>
 

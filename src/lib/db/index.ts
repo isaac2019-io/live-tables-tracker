@@ -16,7 +16,9 @@ const globalForDb = globalThis as typeof globalThis & {
 };
 
 function getDatabasePath() {
-  const configured = process.env.DATABASE_PATH ?? "data/app.db";
+  const configured =
+    process.env.DATABASE_PATH ??
+    (process.env.VERCEL ? "/tmp/data/app.db" : "data/app.db");
   if (path.isAbsolute(configured)) return configured;
   return path.join(/* turbopackIgnore: true */ process.cwd(), configured);
 }
@@ -44,11 +46,21 @@ async function seedAdminIfNeeded(db: ReturnType<typeof drizzle>) {
   const password = process.env.ADMIN_PASSWORD ?? "changeme123";
   const passwordHash = await bcrypt.hash(password, 12);
 
-  await db.insert(schema.users).values({
-    email,
-    passwordHash,
-    role: "admin",
-  });
+  try {
+    await db.insert(schema.users).values({
+      email,
+      passwordHash,
+      role: "admin",
+    });
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      /UNIQUE constraint failed/i.test(error.message)
+    ) {
+      return;
+    }
+    throw error;
+  }
 }
 
 export async function getDb() {

@@ -9,7 +9,7 @@ import {
 import type { snapshots } from "@/lib/db/schema";
 
 export const snapshotInputSchema = z.object({
-  platform: z.enum(["evo", "pragmatic", "choice"]),
+  platform: z.enum(["evo", "pragmatic", "choice", "db"]),
   recordedAt: z.string().min(1),
   note: z.string().max(500).optional(),
   counts: z.object({

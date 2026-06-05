@@ -15,6 +15,13 @@
       "when": 1749094800000,
       "tag": "0001_snapshot_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1749098400000,
+      "tag": "0002_snapshot_tables_hall",
+      "breakpoints": true
     }
   ]
 }

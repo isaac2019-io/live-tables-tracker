@@ -19,16 +19,16 @@ export default async function DashboardPage() {
 
   return (
     <PageShell
-      eyebrow="Evo · Pragmatic · Choice 桌台监控"
+      eyebrow="Evo · Pragmatic · Choice · DB 桌台监控"
       title="实时总览"
-      description="无需登录即可查看。数据优先从三平台公开资料自动汇总，管理员也可人工录入覆盖。"
+      description="无需登录即可查看。数据优先从公开资料或手工统计表汇总，管理员也可人工录入覆盖。"
     >
       <div className="grid gap-4 md:grid-cols-3">
-        <StatCard label="三平台桌台合计" value={totalTables} />
+        <StatCard label="平台桌台合计" value={totalTables} />
         <StatCard
           label="已接入平台"
           value={PLATFORMS.length}
-          hint="Evolution · Pragmatic · Choice Gaming"
+          hint="Evolution · Pragmatic · Choice · DB"
         />
         <StatCard
           label="最近更新时间"
@@ -37,7 +37,7 @@ export default async function DashboardPage() {
         />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {latest.map((item) => (
           <PlatformCard
             key={item.platform}
@@ -48,7 +48,7 @@ export default async function DashboardPage() {
       </div>
 
       <Card title="对比摘要">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {latest.map((item) => {
             const platform = PLATFORMS.find((p) => p.slug === item.platform);
             return (

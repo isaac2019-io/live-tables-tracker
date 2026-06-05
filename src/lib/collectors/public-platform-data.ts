@@ -7,6 +7,7 @@ export type PublicPlatformData = {
   counts: GameTypeCounts;
   tables: TableEntry[];
   sources: { title: string; url: string }[];
+  recordedAt: Date;
   fetchedAt: Date;
   methodology: string;
 };

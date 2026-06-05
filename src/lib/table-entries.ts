@@ -1,9 +1,10 @@
-import type { GameTypeKey } from "@/lib/constants";
+import type { DbHallSlug, GameTypeKey } from "@/lib/constants";
 import { classifyGameName } from "@/lib/collectors/game-type-mapper";
 
 export type TableEntry = {
   name: string;
   gameType: GameTypeKey;
+  hall?: DbHallSlug;
 };
 
 export function expandTableNames(

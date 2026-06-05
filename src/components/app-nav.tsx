@@ -8,6 +8,7 @@ const links = [
   { href: "/platforms/evo", label: "Evo" },
   { href: "/platforms/pragmatic", label: "Pragmatic" },
   { href: "/platforms/choice", label: "Choice" },
+  { href: "/platforms/db", label: "DB" },
   { href: "/daily", label: "每日汇总" },
 ];
 
@@ -23,7 +24,7 @@ export function AppNav({ user }: { user: SessionUser | null }) {
             <p className="text-sm font-bold uppercase tracking-[0.28em] text-orange-300">
               Live Tables
             </p>
-            <p className="text-xs text-slate-400">Evo · Pragmatic · Choice · UTC+8</p>
+            <p className="text-xs text-slate-400">Evo · Pragmatic · Choice · DB · UTC+8</p>
           </div>
         </Link>
 

@@ -1,11 +1,21 @@
 import { notFound } from "next/navigation";
 
 import { GameTypeBreakdown } from "@/components/game-type-breakdown";
+import {
+  HallDetailPanels,
+  HallOverview,
+} from "@/components/hall-overview";
+import { HallTableDirectory } from "@/components/hall-table-directory";
 import { TableDirectory } from "@/components/table-directory";
 import { TrendChart } from "@/components/trend-chart";
 import { Card, EmptyState, PageShell, StatCard } from "@/components/ui";
 import { ensurePublicDataSynced } from "@/lib/collectors/ensure-public-data";
-import { getPlatform, isPlatformSlug } from "@/lib/constants";
+import {
+  DB_HALLS,
+  getPlatform,
+  isPlatformSlug,
+  platformHasHalls,
+} from "@/lib/constants";
 import {
   getLatestSnapshot,
   getLatestSnapshotTables,
@@ -24,6 +34,7 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
 
   await ensurePublicDataSynced();
   const platform = getPlatform(slug);
+  const hasHalls = platformHasHalls(slug);
   const latest = await getLatestSnapshot(slug);
   const tableRows = latest ? await getLatestSnapshotTables(slug) : [];
   const dates = recentUtc8Dates(30);
@@ -33,13 +44,20 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
     dates[0],
   );
 
+  const description = hasHalls
+    ? `平台下设 ${DB_HALLS.length} 个厅：${DB_HALLS.map((h) => h.label).join("、")}。数据待录入后可按厅查看游戏类型与桌台明细。`
+    : "平台最新快照、游戏类型分布与近 30 天桌台总数趋势。";
+
   return (
-    <PageShell
-      title={platform?.fullName ?? slug}
-      description="平台最新快照、游戏类型分布与近 30 天桌台总数趋势。"
-    >
+    <PageShell title={platform?.fullName ?? slug} description={description}>
       {!latest ? (
-        <EmptyState message="该平台尚无录入数据，请由管理员在「录入」页面添加。" />
+        <EmptyState
+          message={
+            hasHalls
+              ? "DB 平台尚无录入数据。可通过「录入」页面或 CSV 模板（含 hall 字段）导入各厅桌台。"
+              : "该平台尚无录入数据，请由管理员在「录入」页面添加。"
+          }
+        />
       ) : (
         <>
           <div className="grid gap-4 md:grid-cols-3">
@@ -56,16 +74,34 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
             />
           </div>
 
-          <Card title="游戏类型分布">
-            <GameTypeBreakdown
-              counts={countsFromSnapshot(latest)}
-              total={latest.totalTables}
-            />
-          </Card>
+          {hasHalls ? (
+            <>
+              <Card title="各厅概览">
+                <HallOverview tables={tableRows} />
+              </Card>
 
-          <Card title={`桌台明细（${tableRows.length} 张）`}>
-            <TableDirectory tables={tableRows} />
-          </Card>
+              <Card title="各厅游戏类型分布">
+                <HallDetailPanels tables={tableRows} />
+              </Card>
+
+              <Card title={`桌台明细（${tableRows.length} 张）`}>
+                <HallTableDirectory tables={tableRows} />
+              </Card>
+            </>
+          ) : (
+            <>
+              <Card title="游戏类型分布">
+                <GameTypeBreakdown
+                  counts={countsFromSnapshot(latest)}
+                  total={latest.totalTables}
+                />
+              </Card>
+
+              <Card title={`桌台明细（${tableRows.length} 张）`}>
+                <TableDirectory tables={tableRows} />
+              </Card>
+            </>
+          )}
         </>
       )}
 

@@ -12,7 +12,9 @@ export const users = sqliteTable("users", {
 
 export const snapshots = sqliteTable("snapshots", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  platform: text("platform", { enum: ["evo", "pragmatic", "choice"] }).notNull(),
+  platform: text("platform", {
+    enum: ["evo", "pragmatic", "choice", "db"],
+  }).notNull(),
   recordedAt: integer("recorded_at", { mode: "timestamp_ms" }).notNull(),
   totalTables: integer("total_tables").notNull(),
   baccarat: integer("baccarat").notNull(),
@@ -56,12 +58,16 @@ export const snapshotTables = sqliteTable("snapshot_tables", {
     .references(() => snapshots.id, { onDelete: "cascade" }),
   tableName: text("table_name").notNull(),
   gameType: text("game_type").notNull(),
+  /** DB 平台厅别：flagship / international / asia-pacific / vietnam / europe */
+  hall: text("hall"),
 });
 
 export const dailyAggregates = sqliteTable("daily_aggregates", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   date: text("date").notNull(),
-  platform: text("platform", { enum: ["evo", "pragmatic", "choice"] }).notNull(),
+  platform: text("platform", {
+    enum: ["evo", "pragmatic", "choice", "db"],
+  }).notNull(),
   snapshotCount: integer("snapshot_count").notNull(),
   totalOpen: integer("total_open").notNull(),
   totalClose: integer("total_close").notNull(),

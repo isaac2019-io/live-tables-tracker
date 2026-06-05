@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Live Tables Tracker",
-  description: "Evo、Pragmatic Play 与 Choice Gaming 桌台数量与游戏类型统计",
+  description: "Evo、Pragmatic Play、Choice 与 DB 桌台数量与游戏类型统计",
 };
 
 export default function RootLayout({

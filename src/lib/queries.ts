@@ -146,6 +146,21 @@ export async function getLatestSnapshotTables(platform: PlatformSlug) {
   return getSnapshotTables(latest.id);
 }
 
+export function groupSnapshotTablesByHall(
+  rows: (typeof snapshotTables.$inferSelect)[],
+) {
+  const grouped = new Map<string, (typeof snapshotTables.$inferSelect)[]>();
+
+  for (const row of rows) {
+    const key = row.hall ?? "unknown";
+    const bucket = grouped.get(key) ?? [];
+    bucket.push(row);
+    grouped.set(key, bucket);
+  }
+
+  return grouped;
+}
+
 export function groupSnapshotTablesByType(
   rows: (typeof snapshotTables.$inferSelect)[],
 ) {
