@@ -1,4 +1,9 @@
-import type { GameTypeCounts, GameTypeKey, PlatformSlug } from "@/lib/constants";
+import type {
+  DbHallSlug,
+  GameTypeCounts,
+  GameTypeKey,
+  PlatformSlug,
+} from "@/lib/constants";
 import type { PublicPlatformData } from "@/lib/collectors/public-platform-data";
 import { parseUtc8DateTime } from "@/lib/timezone";
 import {
@@ -11,6 +16,7 @@ import {
 export type SheetSection = {
   label: string;
   gameType: GameTypeKey;
+  hall?: DbHallSlug;
   count?: number;
   tableIds?: string[];
 };
@@ -19,10 +25,12 @@ export function expandTableIds(
   label: string,
   tableIds: string[],
   gameType: GameTypeKey,
+  hall?: DbHallSlug,
 ): TableEntry[] {
   return tableIds.map((id) => ({
     name: `${label} ${id}`,
     gameType,
+    ...(hall ? { hall } : {}),
   }));
 }
 
@@ -30,13 +38,21 @@ export function buildTablesFromSections(sections: SheetSection[]): TableEntry[] 
   return mergeTableEntries(
     sections.map((section) => {
       if (section.tableIds?.length) {
-        return expandTableIds(section.label, section.tableIds, section.gameType);
+        return expandTableIds(
+          section.label,
+          section.tableIds,
+          section.gameType,
+          section.hall,
+        );
       }
       return expandTableNames(
         section.label,
         section.count ?? 0,
         section.gameType,
-      );
+      ).map((entry) => ({
+        ...entry,
+        ...(section.hall ? { hall: section.hall } : {}),
+      }));
     }),
   );
 }

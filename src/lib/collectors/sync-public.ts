@@ -1,5 +1,6 @@
 import { recomputeDailyForSnapshotDate } from "@/lib/aggregates";
 import { collectChoicePublicData } from "@/lib/collectors/choice-public";
+import { collectDbPublicData } from "@/lib/collectors/db-public";
 import { collectEvolutionPublicData } from "@/lib/collectors/evolution-public";
 import { collectPragmaticPublicData } from "@/lib/collectors/pragmatic-public";
 import type { PublicPlatformData } from "@/lib/collectors/public-platform-data";
@@ -56,14 +57,17 @@ async function upsertPublicSnapshot(data: PublicPlatformData, userId: number) {
 
 export async function syncPublicPlatformData() {
   const userId = await ensureSystemUser();
-  const [evo, pragmatic, choice] = await Promise.all([
+  const [evo, pragmatic, choice, db] = await Promise.all([
     collectEvolutionPublicData(),
     collectPragmaticPublicData(),
     collectChoicePublicData(),
+    collectDbPublicData(),
   ]);
 
+  const datasets = [evo, pragmatic, choice, db];
+
   const results = [];
-  for (const data of [evo, pragmatic, choice]) {
+  for (const data of datasets) {
     const snapshot = await upsertPublicSnapshot(data, userId);
     results.push({ data, snapshot });
   }
