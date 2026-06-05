@@ -53,6 +53,7 @@ export function parseDbLobbyTables(
     "asia-pacific",
     "vietnam",
     "europe",
+    "romania",
     "americas",
     "ebet",
   ];

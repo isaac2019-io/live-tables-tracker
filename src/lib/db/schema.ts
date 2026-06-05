@@ -58,7 +58,7 @@ export const snapshotTables = sqliteTable("snapshot_tables", {
     .references(() => snapshots.id, { onDelete: "cascade" }),
   tableName: text("table_name").notNull(),
   gameType: text("game_type").notNull(),
-  /** DB 平台厅别：flagship / international / asia-pacific / vietnam / europe / americas / ebet */
+  /** DB 平台厅别：flagship / international / asia-pacific / vietnam / europe / romania / americas / ebet */
   hall: text("hall"),
 });
 

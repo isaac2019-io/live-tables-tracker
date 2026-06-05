@@ -20,6 +20,7 @@ async function main() {
             "asia-pacific",
             "vietnam",
             "europe",
+            "romania",
             "americas",
             "ebet",
           ].map(

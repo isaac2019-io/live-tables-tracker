@@ -16,6 +16,7 @@ export const DB_HALLS = [
   { slug: "asia-pacific", label: "亚太厅", labelEn: "Asia Pacific" },
   { slug: "vietnam", label: "越南厅", labelEn: "Vietnam" },
   { slug: "europe", label: "欧洲厅", labelEn: "Europe" },
+  { slug: "romania", label: "罗马尼亚厅", labelEn: "Romania" },
   { slug: "americas", label: "美洲厅", labelEn: "Americas" },
   { slug: "ebet", label: "电投厅", labelEn: "E-Bet" },
 ] as const;

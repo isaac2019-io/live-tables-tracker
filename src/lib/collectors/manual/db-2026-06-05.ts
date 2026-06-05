@@ -5,9 +5,9 @@ import {
   type SheetSection,
 } from "@/lib/collectors/manual/helpers";
 
-/** DB 真人游戏桌台统计 — 2026.06.05（旗舰 / 国际 / 亚太 / 越南 / 欧洲） */
+/** DB 真人游戏桌台统计 — 2026.06.05（旗舰 / 国际 / 亚太 / 越南 / 欧洲 / 罗马尼亚 / 电投） */
 export const DB_SHEET_COUNTS: GameTypeCounts = {
-  baccarat: 178,
+  baccarat: 209,
   blackjack: 6,
   roulette: 3,
   dragonTiger: 2,
@@ -117,12 +117,6 @@ const DB_SECTIONS: SheetSection[] = [
     tableIds: ["A49"],
   },
   { label: "番摊", gameType: "other", hall: "flagship", tableIds: ["A50"] },
-  {
-    label: "实体堵桌",
-    gameType: "baccarat",
-    hall: "flagship",
-    tableIds: ["B60", "B61", "B62", "B63", "B64"],
-  },
   // —— 国际厅 A区 ——
   {
     label: "经典百家乐",
@@ -373,6 +367,58 @@ const DB_SECTIONS: SheetSection[] = [
       "U42",
       "U46",
       "U47",
+    ],
+  },
+  // —— 罗马尼亚厅 ——
+  {
+    label: "极速百家乐",
+    gameType: "baccarat",
+    hall: "romania",
+    tableIds: [
+      "R01",
+      "R04",
+      "R05",
+      "R06",
+      "R07",
+      "R08",
+      "R09",
+      "R10",
+      "R11",
+      "R12",
+      "R13",
+      "R14",
+      "R15",
+      "R16",
+      "R17",
+      "R18",
+      "R19",
+      "R20",
+      "R21",
+      "R23",
+      "R29",
+    ],
+  },
+  // —— 电投厅 ——
+  {
+    label: "电投百家乐",
+    gameType: "baccarat",
+    hall: "ebet",
+    tableIds: [
+      "D21",
+      "D22",
+      "D23",
+      "D25",
+      "D26",
+      "D27",
+      "D28",
+      "D29",
+      "D30",
+      "D31",
+      "B60",
+      "B61",
+      "B62",
+      "B63",
+      "B64",
     ],
   },
 ];
