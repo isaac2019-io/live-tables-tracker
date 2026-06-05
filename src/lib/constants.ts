@@ -1,10 +1,10 @@
 export const TIMEZONE = "Asia/Shanghai";
 
 export const PLATFORMS = [
+  { slug: "db", label: "DB", fullName: "DB Gaming", hasHalls: true },
   { slug: "evo", label: "Evo", fullName: "Evolution" },
   { slug: "pragmatic", label: "Pragmatic Play", fullName: "Pragmatic Play" },
   { slug: "choice", label: "Choice", fullName: "Choice Gaming" },
-  { slug: "db", label: "DB", fullName: "DB Gaming", hasHalls: true },
 ] as const;
 
 export type PlatformSlug = (typeof PLATFORMS)[number]["slug"];

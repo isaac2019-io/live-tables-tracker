@@ -19,7 +19,7 @@ export default async function DashboardPage() {
 
   return (
     <PageShell
-      eyebrow="Evo · Pragmatic · Choice · DB 桌台监控"
+      eyebrow="DB · Evo · Pragmatic · Choice 桌台监控"
       title="实时总览"
       description="无需登录即可查看。数据优先从公开资料或手工统计表汇总，管理员也可人工录入覆盖。"
     >

@@ -84,7 +84,7 @@ export function EntryTemplatePanel() {
               <tr className="border-t border-white/10">
                 <td className="px-3 py-2 font-mono text-orange-200">platform</td>
                 <td className="px-3 py-2 text-slate-300">平台</td>
-                <td className="px-3 py-2 text-slate-400">evo / pragmatic / choice / db</td>
+                <td className="px-3 py-2 text-slate-400">db / evo / pragmatic / choice</td>
               </tr>
               <tr className="border-t border-white/10">
                 <td className="px-3 py-2 font-mono text-orange-200">hall</td>

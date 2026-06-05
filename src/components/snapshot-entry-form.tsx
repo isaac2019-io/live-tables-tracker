@@ -30,7 +30,7 @@ export function SnapshotEntryForm({
 }: SnapshotEntryFormProps) {
   const router = useRouter();
   const [platform, setPlatform] = useState<PlatformSlug>(
-    initial?.platform ?? "evo",
+    initial?.platform ?? "db",
   );
   const [recordedAt, setRecordedAt] = useState(
     initial?.recordedAt ?? formatNowUtc8(),

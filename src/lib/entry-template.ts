@@ -284,7 +284,7 @@ export function getEntryTemplateGuide() {
     })),
     rules: [
       "每一行代表 1 张桌台，同一平台 + 同一时间可写多行",
-      "platform 支持 evo、pragmatic、choice、db",
+      "platform 支持 db、evo、pragmatic、choice",
       "DB 平台必须填写 hall（旗舰厅 flagship、国际厅 international、亚太厅 asia-pacific、越南厅 vietnam、欧洲厅 europe）",
       "其他平台 hall 留空",
       "recorded_at_utc8 使用 UTC+8，格式 YYYY-MM-DDTHH:mm",
