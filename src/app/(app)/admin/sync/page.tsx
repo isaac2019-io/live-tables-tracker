@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { DbUrlSyncPanel } from "@/components/db-url-sync-panel";
 import { EvoLoginSyncPanel } from "@/components/evo-login-sync-panel";
+import { SnapshotTransferPanel } from "@/components/snapshot-transfer-panel";
 import { Card, PageShell } from "@/components/ui";
 import { PLAYWRIGHT_UNSUPPORTED_MESSAGE } from "@/lib/collectors/playwright-runtime";
 import { getSession } from "@/lib/auth/session";
@@ -28,6 +29,9 @@ export default async function AdminSyncPage() {
       <div className="grid gap-6 xl:grid-cols-2">
         <DbUrlSyncPanel disabled={onVercel} />
         <EvoLoginSyncPanel disabled={onVercel} />
+      </div>
+      <div className="mt-6">
+        <SnapshotTransferPanel />
       </div>
       <Card title="使用说明" className="mt-6">
         <div className="grid gap-6 md:grid-cols-2 text-sm leading-7 text-slate-400">
