@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { DbUrlSyncPanel } from "@/components/db-url-sync-panel";
 import { EvoLoginSyncPanel } from "@/components/evo-login-sync-panel";
 import { Card, PageShell } from "@/components/ui";
+import { PLAYWRIGHT_UNSUPPORTED_MESSAGE } from "@/lib/collectors/playwright-runtime";
 import { getSession } from "@/lib/auth/session";
 
 export default async function AdminSyncPage() {
@@ -11,15 +12,22 @@ export default async function AdminSyncPage() {
     redirect("/");
   }
 
+  const onVercel = process.env.VERCEL === "1";
+
   return (
     <PageShell
       title="平台数据同步"
       description="通过 DB 签名链接或 Evo 代理站账号，在本地一键采集桌台数据并写入快照。"
       eyebrow="管理员"
     >
+      {onVercel ? (
+        <Card className="border-amber-400/30 bg-amber-500/10">
+          <p className="text-sm leading-7 text-amber-100">{PLAYWRIGHT_UNSUPPORTED_MESSAGE}</p>
+        </Card>
+      ) : null}
       <div className="grid gap-6 xl:grid-cols-2">
-        <DbUrlSyncPanel />
-        <EvoLoginSyncPanel />
+        <DbUrlSyncPanel disabled={onVercel} />
+        <EvoLoginSyncPanel disabled={onVercel} />
       </div>
       <Card title="使用说明" className="mt-6">
         <div className="grid gap-6 md:grid-cols-2 text-sm leading-7 text-slate-400">

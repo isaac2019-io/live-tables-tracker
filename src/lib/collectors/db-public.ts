@@ -1,5 +1,8 @@
 import { fetchDbLobbyTables } from "@/lib/collectors/db/fetch-lobby";
 import { buildDbSheetData } from "@/lib/collectors/manual/db-2026-06-05";
+import {
+  isPlaywrightUnsupported,
+} from "@/lib/collectors/playwright-runtime";
 import type { PublicPlatformData } from "@/lib/collectors/public-platform-data";
 
 function resolveDbLobbyUrl(): string | null {
@@ -37,7 +40,7 @@ async function collectDbLiveData(lobbyUrl: string): Promise<PublicPlatformData> 
 
 export async function collectDbPublicData(): Promise<PublicPlatformData> {
   const lobbyUrl = resolveDbLobbyUrl();
-  if (lobbyUrl) {
+  if (lobbyUrl && !isPlaywrightUnsupported()) {
     try {
       return await collectDbLiveData(lobbyUrl);
     } catch (error) {

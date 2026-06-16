@@ -9,6 +9,7 @@ import {
 } from "@/lib/collectors/db/capture-script";
 import { mapDbGameType, getDbGameTypeLabel } from "@/lib/collectors/db/game-types";
 import { mapDbCasinoHall } from "@/lib/collectors/db/hall-map";
+import { importPlaywright } from "@/lib/collectors/playwright-runtime";
 
 const GAME_STATUS_MAINTAIN = 6;
 const OPEN_STATUS_TEST = 6;
@@ -79,7 +80,7 @@ export async function fetchDbLobbyTables(
   options?: { timeoutMs?: number },
 ): Promise<DbLobbyFetchResult> {
   const timeoutMs = options?.timeoutMs ?? 120_000;
-  const { chromium } = await import("playwright");
+  const { chromium } = await importPlaywright();
 
   const browser = await chromium.launch({
     headless: true,

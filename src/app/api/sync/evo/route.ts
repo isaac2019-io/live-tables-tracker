@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { requireAdmin } from "@/lib/auth/session";
-import { syncEvoFromCredentials } from "@/lib/collectors/sync-evo";
+import {
+  formatPlaywrightError,
+  isPlaywrightUnsupported,
+  PLAYWRIGHT_UNSUPPORTED_MESSAGE,
+} from "@/lib/collectors/playwright-runtime";
 
 export const maxDuration = 120;
 
@@ -14,9 +18,17 @@ const bodySchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    if (isPlaywrightUnsupported()) {
+      return NextResponse.json(
+        { error: PLAYWRIGHT_UNSUPPORTED_MESSAGE },
+        { status: 503 },
+      );
+    }
+
     const session = await requireAdmin();
     const json = await request.json();
     const credentials = bodySchema.parse(json);
+    const { syncEvoFromCredentials } = await import("@/lib/collectors/sync-evo");
     const result = await syncEvoFromCredentials(credentials, { userId: session.id });
 
     return NextResponse.json({
@@ -40,11 +52,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "无权限" }, { status: 403 });
       }
 
-      const message = error.message.includes("Executable doesn't exist")
-        ? "当前环境未安装 Playwright 浏览器。请在本地运行 npm run dev，或执行 npx playwright install chromium。"
-        : error.message;
-
-      return NextResponse.json({ error: message }, { status: 500 });
+      return NextResponse.json(
+        { error: formatPlaywrightError(error) },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ error: "Evo 同步失败" }, { status: 500 });

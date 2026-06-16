@@ -6,6 +6,7 @@ import {
   parseEvoLobbyConfigs,
   type EvoLobbyTable,
 } from "@/lib/collectors/evo/game-types";
+import { importPlaywright } from "@/lib/collectors/playwright-runtime";
 
 export type EvoLoginCredentials = {
   loginUrl: string;
@@ -149,7 +150,7 @@ export async function fetchEvoLobbyTables(
   options?: { timeoutMs?: number },
 ): Promise<EvoLobbyFetchResult> {
   const timeoutMs = options?.timeoutMs ?? 120_000;
-  const { chromium } = await import("playwright");
+  const { chromium } = await importPlaywright();
 
   const browser = await chromium.launch({
     headless: true,

@@ -16,7 +16,7 @@ type SyncResponse = {
   error?: string;
 };
 
-export function EvoLoginSyncPanel() {
+export function EvoLoginSyncPanel({ disabled = false }: { disabled?: boolean }) {
   const router = useRouter();
   const [loginUrl, setLoginUrl] = useState("https://www.bpvout.com/casino");
   const [username, setUsername] = useState("");
@@ -114,7 +114,7 @@ export function EvoLoginSyncPanel() {
             ) : null}
           </div>
         ) : null}
-        <Button type="submit" disabled={submitting || !username || !password}>
+        <Button type="submit" disabled={submitting || !username || !password || disabled}>
           {submitting ? "登录采集中，请稍候（约 30–90 秒）…" : "立即同步 Evo 数据"}
         </Button>
       </form>

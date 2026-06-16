@@ -17,7 +17,7 @@ type SyncResponse = {
   error?: string;
 };
 
-export function DbUrlSyncPanel() {
+export function DbUrlSyncPanel({ disabled = false }: { disabled?: boolean }) {
   const router = useRouter();
   const [lobbyUrl, setLobbyUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -99,7 +99,7 @@ export function DbUrlSyncPanel() {
             </div>
           </div>
         ) : null}
-        <Button type="submit" disabled={submitting || !lobbyUrl.trim()}>
+        <Button type="submit" disabled={submitting || !lobbyUrl.trim() || disabled}>
           {submitting ? "采集中，请稍候（约 30–90 秒）…" : "立即同步 DB 数据"}
         </Button>
       </form>

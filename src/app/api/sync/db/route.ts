@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { requireAdmin } from "@/lib/auth/session";
-import { syncDbFromLobbyUrl } from "@/lib/collectors/sync-db";
+import {
+  formatPlaywrightError,
+  isPlaywrightUnsupported,
+  PLAYWRIGHT_UNSUPPORTED_MESSAGE,
+} from "@/lib/collectors/playwright-runtime";
 
 export const maxDuration = 120;
 
@@ -22,9 +26,17 @@ const bodySchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    if (isPlaywrightUnsupported()) {
+      return NextResponse.json(
+        { error: PLAYWRIGHT_UNSUPPORTED_MESSAGE },
+        { status: 503 },
+      );
+    }
+
     const session = await requireAdmin();
     const json = await request.json();
     const { lobbyUrl } = bodySchema.parse(json);
+    const { syncDbFromLobbyUrl } = await import("@/lib/collectors/sync-db");
     const result = await syncDbFromLobbyUrl(lobbyUrl, { userId: session.id });
 
     return NextResponse.json({
@@ -48,11 +60,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "无权限" }, { status: 403 });
       }
 
-      const message = error.message.includes("Executable doesn't exist")
-        ? "当前环境未安装 Playwright 浏览器。请在本地运行 npm run dev，或配置带 Chromium 的采集环境。"
-        : error.message;
-
-      return NextResponse.json({ error: message }, { status: 500 });
+      return NextResponse.json(
+        { error: formatPlaywrightError(error) },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ error: "DB 同步失败" }, { status: 500 });
